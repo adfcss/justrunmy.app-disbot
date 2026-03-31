@@ -1,0 +1,43 @@
+name: Build and Push to JustRunMy
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Dockerfile'
+      - 'index.js'
+      - 'package.json'
+  workflow_dispatch: # 允许手动点击运行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1. 对应你的第一条命令：docker login
+      - name: Log in to JustRunMy Registry
+        uses: docker/login-action@v3
+        with:
+          registry: jdr-y34cf52r.justrunmy.app
+          # 建议在 GitHub Settings -> Secrets -> Actions 中添加以下两个变量
+          username: ${{ secrets.JRM_USER }} 
+          password: ${{ secrets.JRM_PASS }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 2 & 3. 对应你的第二和第三条命令：docker build & docker push
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # 这里的 tags 必须严格遵守平台要求的格式
+          tags: jdr-y34cf52r.justrunmy.app/y34cf52r:v1
+          # 如果你的程序很简单，保持 amd64 即可，arm64 可选
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
