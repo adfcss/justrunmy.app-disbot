@@ -2,7 +2,7 @@ name: Build and Push to JustRunMy
 
 on:
   push:
-    branches: [ main ]
+    branches: [ other-bot-v1.0.0 ]
     paths:
       - 'Dockerfile'
       - 'index.js'
