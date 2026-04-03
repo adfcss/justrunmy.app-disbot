@@ -36,7 +36,7 @@ jobs:
           context: .
           push: true
           # 这里的 tags 必须严格遵守平台要求的格式
-          tags: jdr-p95rw86x.justrunmy.app/p95rw86x:v3
+          tags: jdr-p95rw86x.justrunmy.app/p95rw86x:v4
           # 如果你的程序很简单，保持 amd64 即可，arm64 可选
           platforms: linux/amd64
           cache-from: type=gha
